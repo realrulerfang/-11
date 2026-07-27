@@ -14,7 +14,7 @@
     --blue:#3388ff;
     --bg-cream: hsl(44 33% 96%); /* реальный --background из их CSS */
   }
-  body{ background:#000; color:#fff; font-family:'Inter', ui-sans-serif, system-ui, sans-serif; }
+  body{ background:var(--bg-cream); color:#0a0a0a; font-family:'Inter', ui-sans-serif, system-ui, sans-serif; }
   h1,h2,h3,h4{ font-family:'Space Grotesk','Inter',system-ui,sans-serif; }
   .font-mono{ font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
   .plus::before,.plus::after{content:"+";position:absolute;font-size:11px;color:#555;}
@@ -31,9 +31,10 @@
     background:linear-gradient(90deg,#f5f5f5 0% 60%,#c9ff4d 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;
   }
-  #bgCanvas{ position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.45; }
+  #bgCanvas{ position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.6; }
 
-  /* ФОНОВОЕ ВИДЕО В HERO */
+  /* ФОНОВОЕ ВИДЕО В HERO — секция героя остаётся тёмной, поверх видео */
+  .hero-section{ background:#0a0a0a; }
   .hero-video{
     position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; object-position:center;
@@ -43,17 +44,24 @@
     position:absolute; inset:0; z-index:1;
     background:linear-gradient(135deg, rgba(10,10,10,.82) 0%, rgba(10,10,10,.62) 45%, rgba(10,10,10,.82) 100%);
   }
+
+  /* Текст и элементы под героем теперь на светлом фоне — переопределяем тёмные оттенки */
+  .content-area{ color:#0a0a0a; }
+  .content-area .text-\[\#888\]{ color:#5a5a55 !important; }
+  .content-area .text-\[\#666\]{ color:#6b6b66 !important; }
+  .content-area .text-\[\#ccc\]{ color:#333 !important; }
+  .content-area .border-\[\#222\]{ border-color:#d8d5cc !important; }
+  .content-area .border-\[\#333\]{ border-color:#cfccc2 !important; }
+  .content-area .bg-\[\#1a1a1a\]{ background:#efece3 !important; }
+  .content-area .bg-\[\#0a0a0a\]{ background:#0a0a0a !important; }
+  .content-area .hover\:bg-white\/5:hover{ background:rgba(10,10,10,0.04) !important; }
+  .content-area .hover\:border-\[\#666\]:hover{ border-color:#999 !important; }
 </style>
 </head>
 <body class="min-h-screen relative">
 
 <!-- Фоновый паттерн: своя реализация на canvas (НЕ код из их бандла) -->
 <canvas id="bgCanvas"></canvas>
-
-<!-- заметка для препода -->
-<div class="fixed bottom-3 right-3 z-[999] bg-[#111] border border-[#333] text-[10px] font-mono text-[#888] px-3 py-2 rounded max-w-[220px] leading-relaxed">
-  Учебная статическая копия вёрстки. Кнопка Connect Wallet — заглушка, реального подключения к блокчейну нет.
-</div>
 
 <!-- NAV -->
 <header class="fixed top-4 left-0 right-0 z-50">
@@ -84,7 +92,7 @@
 </header>
 
 <!-- HERO -->
-<section class="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#0a0a0a]">
+<section class="hero-section relative min-h-screen flex flex-col justify-center overflow-hidden">
   <video
     class="hero-video"
     autoplay
@@ -98,7 +106,7 @@
   <div class="hero-video-overlay"></div>
   <div class="absolute inset-0 grain opacity-40 z-[1]"></div>
   <div class="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 w-full grid lg:grid-cols-2 gap-12 items-center">
-    <h1 class="text-4xl md:text-5xl lg:text-[62px] font-bold leading-[1.05] uppercase tracking-tight">
+    <h1 class="text-4xl md:text-5xl lg:text-[62px] font-bold leading-[1.05] uppercase tracking-tight text-white">
       Tokenized real-world stocks. Existing DEX liquidity. Your wallet stays in control.
     </h1>
     <div class="lg:pl-6">
@@ -109,13 +117,15 @@
         <a href="#tokens" class="inline-flex items-center gap-2 bg-white text-[#0a0a0a] px-5 py-3 text-sm font-bold tracking-[0.15em] uppercase rounded-full border border-white/40 hover:bg-[#ccff00] transition">
           Explore Stock Tokens ↗
         </a>
-        <a href="#about" class="inline-flex items-center gap-3 border border-[#333] px-5 py-3 text-sm font-medium tracking-wide uppercase hover:border-[#666] hover:bg-white/5 transition">
+        <a href="#about" class="inline-flex items-center gap-3 border border-[#333] px-5 py-3 text-sm font-medium tracking-wide uppercase hover:border-[#666] hover:bg-white/5 transition text-white">
           Read the boundaries →
         </a>
       </div>
     </div>
   </div>
 </section>
+
+<div class="content-area relative z-10">
 
 <!-- ABOUT / THESIS -->
 <section id="about" class="py-24 lg:py-32">
@@ -150,7 +160,7 @@
       <span class="font-mono text-xs tracking-[0.3em] text-[#666] uppercase block mb-4">[ PRODUCT GUARANTEES ]</span>
       <h2 class="text-2xl md:text-3xl lg:text-[42px] font-bold leading-tight uppercase">Public contracts in. Neutral venue quotes out. Every value is validated, and every transaction remains under wallet control.</h2>
     </div>
-    <div class="aspect-[21/9] bg-black flex items-center justify-center overflow-hidden">
+    <div class="aspect-[21/9] bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
       <img src="images/04-pixel-chain-illustrating-validated-public-token-data.png" alt="Pixel chain illustrating validated public token data" class="max-w-full max-h-full object-contain p-8" loading="lazy">
     </div>
   </div>
@@ -437,6 +447,8 @@
   </div>
 </footer>
 
+</div>
+
 <script>
   // Собственная отрисовка фонового паттерна (X / O / + / квадрат), написана с нуля.
   // В оригинале на её месте <canvas data-engine="three.js r185"> — их код я не трогал и не копировал.
@@ -471,7 +483,7 @@
     }
 
     function drawShape(c){
-      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.strokeStyle = 'rgba(10,10,10,0.10)';
       ctx.lineWidth = 1.5;
       const {x,y,size:s} = c;
       ctx.beginPath();
